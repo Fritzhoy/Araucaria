@@ -21,7 +21,7 @@ The tree was chosen as a symbol of Paraná state and gives the name of the city 
   
 ## Inspiration
 
-  The idea of this project is to make the population aware of the importance of preserving and cultivating new species of Araucaria, understanding that there is an economic and environmental value in those trees and show the possibilities for ordinary people to enter carbon markets that today are almost exclusive to large companies. People who have Araucaria trees on their land will be rewarded with carbon credits referring to the offset of the Araucaria trees, based on the height, diameter and crown of the trees retroactive carbon offset tokens will be issued to financially compensate landowners that care for and maintain the trees on their land, which will be collected at the first access to the platform. 
+  The idea of this project is to make the population aware of the importance of preserving and cultivating new species of Araucaria, understanding that there is an economic and environmental value in those trees and show the possibilities for ordinary people to enter carbon markets that today are almost exclusive to large companies. People who have Araucaria trees on their land will be rewarded with carbon credits referring to the offset of the Araucaria trees, based on the height, diameter of the trees retroactive carbon offset tokens will be issued to financially compensate landowners that care for and maintain the trees on their land, which will be collected at the first access to the platform. 
   
 Every new year a request to a **Chainlink Oracle** will be performed to check the trees states, if the state of trees pass(tree still there) a offset carbon tokens referring to previous year will be available to be claim by landowners.  
   
@@ -32,7 +32,7 @@ Every new year a request to a **Chainlink Oracle** will be performed to check th
  For the model it will be used 15 private land of the Hugo Lange neighborhood in Curitiba, a neighborhood with lots of trees. Allotment data were obtained from <a href="https://geocuritiba.ippuc.org.br/portal/apps/sites/#/geocuritiba"> the GeoCuritiba platform </a>, made available by the Municipality of Curitiba.
  
  
- The focus of this project will be:
+ The focus of this project:
  
   * Mapping the Araucaria Trees per private lands using offchain data.
   * Emit Carbon Token for private land based on total number of trees.
@@ -40,30 +40,18 @@ Every new year a request to a **Chainlink Oracle** will be performed to check th
 
 ## Calculating the carbon offset of Araucaria angustifolia
 
-### Estimate the average biomass
+This mock-up will use the biomass values from <a href="https://www.scielo.br/j/pat/a/DqMVTCjSkHZmwVd4vgCcFHb/?format=pdf&lang=pt">the paper</a> *SANQUETTA, C. R. et al. **Individual carbon estimation for Araucaria angustifolia.** - e-ISSN 1983-4063 - www.agro.ufg.br/pat - Pesq. Agropec. Trop., Goiânia, v. 44, n. 1, p. 1-8, jan./mar. 2014*
 
-Using the average diameter given by the BIOFIX study as **38cm**, we can use an estimation equation specific to Araucaria angustifolia to estimate the biomass. Let's assume the equation yields an average biomass of 200 kg per tree. 
+>"For a range of 14 to 31 years in age trees, their diameters ranged from 14.29 cm to 33.39 cm and their heights from 12.72 m to 19.90 m. In individual stock of carbon, the variations were from 25.91 kg to 228.43 kg"
 
-### Convert biomass to carbon content:
+>"Table 1. Descriptive statistics for Diameter at Breast Height (DBH), total height (H), age, Biomass Expansion Factor
+(FEB), Root Ratio (R) and individual carbon stock (C), for Araucaria angustifolia Bert. O.
+Ktze. Araucariaceae (Iguaçu and General Carneiro Falls, PR, 2003-2004)."![Screenshot 2023-05-28 at 12 36 50.jpg](https://github.com/Fritzhoy/Araucaria/assets/82603176/d53a20b3-b1fe-41b8-ad0c-d11808e7a83f)
 
-Carbon is the primary element in the organic matter of trees. The carbon content is typically expressed as a percentage of the tree's biomass. You can use conversion factors specific to Araucaria angustifolia or use average conversion factors for similar tree species. A common assumption is that approximately 50% of the tree's biomass is carbon.
+>"The simple correlation matrix between the studied variables showed that the one with higher correlation with the total carbon stock individual was DBH, followed by total height and age. These correlations were positive and significant. This means that the larger the size of the trees and older they are, the greater your stock single carbon."
 
-### Calculate carbon sequestration per tree
-
-Multiply the tree's biomass (step 1) by the carbon content factor (step 2) to determine the amount of carbon stored in a single Araucaria angustifolia tree.
-
-### Determine the average lifespan of Araucaria angustifolia:
-
-Estimate the average lifespan of the tree species. This information can also be obtained from scientific research or forestry databases. let's assume the average lifespan of Araucaria angustifolia is 250 years.
-
-### Calculate annual carbon sequestration
-
-Divide the total carbon stored in a single tree (step 3) by the average lifespan of the tree (step 4) to determine the annual carbon sequestration rate of Araucaria angustifolia.
-
-### Determine the area or number of trees:
-
-To calculate the overall carbon offset, you need to know the area covered by Araucaria angustifolia or the number of trees. If you have the area, multiply the annual carbon sequestration rate (step 5) by the number of trees per unit area. If you have the number of trees, multiply the annual carbon sequestration rate by the total number of trees.
-    
+ 
+ 
  ## Architecture
  
  ###  Hybrid Smart Contracts
