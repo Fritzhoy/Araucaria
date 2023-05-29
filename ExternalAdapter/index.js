@@ -12,8 +12,7 @@ const customError = (data) => {
 // with a Boolean value indicating whether or not they
 // should be required.
 const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  name: ['Lote Cadastral'],
   endpoint: false
 }
 
@@ -21,9 +20,9 @@ const createRequest = (input, callback) => {
   // The Validator helps you validate the Chainlink request data
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'price'
-  const url = `https://min-api.cryptocompare.com/data/${endpoint}`
-  const fsym = validator.validated.data.base.toUpperCase()
+  const endpoint = validator.validated.data.endpoint || 'Lote Cadastral'
+  const url = `https://geocuritiba.ippuc.org.br/server/rest/services/GeoCuritiba/Publico_GeoCuritiba_MapaCadastral/MapServer/15${endpoint}`
+  const fsym = validator.validated.data.name.toUpperCase()
   const tsyms = validator.validated.data.quote.toUpperCase()
 
   const params = {
