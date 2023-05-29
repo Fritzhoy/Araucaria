@@ -27,7 +27,7 @@ Every new year a request to a **Chainlink Oracle** will be performed to check th
   
   When the population benefits and takes part as an agent of the green economy, the topics becomes part of everyday life, it is what fosters an effective transformation. The idea is to change the feeling of "economic loss" for having the tree on your backward, to a new vision about the benefits of having it, taking care of it and planting new trees.
   
-  ## Mock
+  ## Mock-Up
   
  For the model it will be used 15 private land of the Hugo Lange neighborhood in Curitiba, a neighborhood with lots of trees. Allotment data were obtained from <a href="https://geocuritiba.ippuc.org.br/portal/apps/sites/#/geocuritiba"> the GeoCuritiba platform </a>, made available by the Municipality of Curitiba.
  
