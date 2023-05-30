@@ -9,7 +9,9 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "@chainlink/external-adapter": "^0.2.3"
+    "@chainlink/external-adapter": "^0.2.3",
+    "@esri/arcgis-rest-feature-service": "^4.0.4",
+    "@esri/arcgis-rest-request": "^4.2.0"
   },
   "devDependencies": {
     "body-parser": "^1.19.0",
