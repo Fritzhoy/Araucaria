@@ -1,68 +1,63 @@
+const axios = require("axios");
 const { Requester, Validator } = require("@chainlink/external-adapter");
-// const { ApiKeyManager } = require("@esri/arcgis-rest-request");
-// const { queryFeatures } = require("@esri/arcgis-rest-feature-service");
 
-// Define custom error scenarios for the API.
-// Return true for the adapter to retry.
 const customError = (data) => {
   if (data.Response === "Error") return true;
   return false;
 };
 
-// Define custom parameters to be used by the adapter.
-// Extra parameters can be stated in the extra object,
-// with a Boolean value indicating whether or not they
-// should be required.
 const customParams = {
-  gtm_ind_fiscal: ["Indicação Fiscal"],
-  endpoint: false,
+  objectid: ["objectid"],
 };
 
-const createRequest = (input, callback) => {
-  // The Validator helps you validate the Chainlink request data
+const createRequest = async (input, callback) => {
   const validator = new Validator(callback, input, customParams);
+  if (validator.error) {
+    return callback(validator.error.statusCode, validator.error);
+  }
   const jobRunID = validator.validated.id;
-  const endpoint = validator.validated.data.endpoint || "attributes";
-  const url = `https://geocuritiba.ippuc.org.br/server/rest/services/GeoCuritiba/Publico_GeoCuritiba_MapaCadastral/MapServer/${endpoint}`;
-  const fsym = validator.validated.data.name;
-  const appid = process.env.API_KEY;
+  const endpoint =
+    "https://geocuritiba.ippuc.org.br/server/rest/services/GeoCuritiba/Publico_Interno_GeoCuritiba_BaseCartografica_para_MC/MapServer/56/query";
+  const whereClause = "descricao = 'Mata Nativa com Araucária'";
+  const returnGeometry = false;
+  const outFields = "*";
+  const format = "pjson";
+  const objectid = validator.validated.data.objectid;
 
-  const authentication = ApiKeyManager.fromKey(appid);
+  const url = `${endpoint}?where=${encodeURIComponent(
+    whereClause
+  )}&&returnGeometry=${returnGeometry}&outFields=${outFields}&f=${encodeURIComponent(
+    format
+  )}`;
 
-  const params = {
-    fsym,
-    authentication,
-  };
-
-  // This is where you would add method and headers
-  // you can add method like GET or POST and add it to the config
-  // The default is GET requests
-  // method = 'get'
-  // headers = 'headers.....'
-  const config = {
-    url,
-    params,
-  };
-₢
-  // The Requester allows API calls be retry in case of timeout
-  // or connection failure
-  Requester.request(config, customError)
-    .then((response) => {
-      // It's common practice to store the desired value at the top-level
-      // result key. This allows different adapters to be compatible with
-      // one another.
-      response.data.result = Requester.validateResultNumber(response.data, [
-        tsyms,
-      ]);
-      callback(response.status, Requester.success(jobRunID, response));
-    })
-    .catch((error) => {
-      callback(500, Requester.errored(jobRunID, error));
-    });
+  try {
+    const response = await axios.get(url);
+    const features = response.data.features;
+    console.log(features);
+    const feature = features.find(
+      (item) => item.attributes.objectid === objectid
+    );
+    if (feature) {
+      const areaHectares = feature.attributes.area_hectares;
+      const result = Requester.success("200", {
+        data: {
+          areaHectares: areaHectares,
+        },
+      });
+      callback(result.statusCode, result);
+    } else {
+      const error = Requester.errored(
+        "404",
+        `Object ID ${objectId} not found.`
+      );
+      callback(error.statusCode, error);
+    }
+  } catch (error) {
+    const errorMessage = error.response ? error.response.data : error.message;
+    const errorResponse = Requester.errored("500", errorMessage);
+    callback(errorResponse.statusCode, errorResponse);
+  }
 };
-
-// This is a wrapper to allow the function to work with
-// GCP Functions
 exports.gcpservice = (req, res) => {
   createRequest(req.body, (statusCode, data) => {
     res.status(statusCode).send(data);
@@ -89,6 +84,4 @@ exports.handlerv2 = (event, context, callback) => {
   });
 };
 
-// This allows the function to be exported for testing
-// or for running in express
 module.exports.createRequest = createRequest;
