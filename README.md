@@ -28,11 +28,22 @@ Every new year a request to a **Chainlink Oracle** will be performed to check th
   
  For the model it will be used 15 private land of the Hugo Lange neighborhood in Curitiba, a neighborhood with lots of trees. Allotment data were obtained from <a href="https://geocuritiba.ippuc.org.br/portal/apps/sites/#/geocuritiba"> the GeoCuritiba platform </a>, made available by the Municipality of Curitiba.
 
- The focus of this project:
+The focus of this project:
 
-* Mapping the Araucaria Trees per private lands using offchain data.
-* Emit Carbon Token for private land based on total number of trees.
-* The owner of the lands will be predetermined in order to reduce the complexity of this mock-up. For future updates the owner of lands can be determined using the data from GeoCuritiba plataform.
+External Adapter API:
+
+* <a href="https://cawciv1ln29r6z7h.maps.arcgis.com/home/item.html?id=bfe4f78ae9c745c68b6e4efba8c2c1d7">ArcGis Online Map</a> with Araucária Trees information: geolocal, Tree Height, fiscal number of lands with Araucária, Hectares with Araucária.  
+* Mapping the Araucaria Trees per geolocation using offchain data and ArcGis Online Map <a href="https://geocuritiba.ippuc.org.br/server/rest/services/GeoCuritiba/Publico_Interno_GeoCuritiba_BaseCartografica_para_MC/MapServer/56/query?where=descricao%20%3D%20%27Mata%20Nativa%20com%20Arauc%C3%A1ria%27&&returnGeometry=false&outFields=%2A&f=pjson">endpoint</a>.
+*Cross the information of the trees with the information of the lands owner lands<"IND_FISCAL"> in the Layer* RPPNM * of the Curitiba Arcgis online map.
+* Get the Tree height throw the <a href="https://tiledimageservices.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/10m_Tree_Canopy_Height/ImageServer">endpoint</a>
+
+Smart Contract
+
+* Using the offchain data from the External Adapter, emit Carbon Token for private land based on total Hectare Area of the tree and Height of the Trees.
+
+In order to reduce the complexity of this mock-up, we will focus on build the external adapter to get the data from the ArcGis Online Map:
+
+* First Step was get the area of hectares of Araucaria Trees in the Urban Area of Curitiba, input the Objectid and return the "area_hectares", for future updates the owner of lands can be determined using the data from GeoCuritiba plataform.
 
 ## Calculating the carbon offset of Araucaria angustifolia
 
@@ -48,7 +59,7 @@ Ktze. Araucariaceae (Iguaçu and General Carneiro Falls, PR, 2003-2004)."![Scree
 
 ## Architecture
 
-###  Hybrid Smart Contracts
+### Hybrid Smart Contracts
 
  A hybrid smart contract is an application that consists of two parts:
 
